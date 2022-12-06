@@ -1,19 +1,20 @@
 env:
     CIRRUS_CLONE_DEPTH: 1
     BUILD_HOSTNAME: "cirrus-ci.org"
-    bot_api: "ENCRYPTED[d5f8289d835b201789b2b31e728d0cd82a100f1b47ddec69dd6ba49a3712fcfa2719b220fc6a8894865df517a78332ca]"
+    bot_api: "ENCRYPTED[815976446bd4e5019391862148772ab08f160b5a5faedb30a1aec089e6d1caf293cd4aecad8be37a73c401efa47e2cee]"
+    tg_chat: "ENCRYPTED[eda727af7dc580630da7bf5fc18342027b4d395261e2b4d4a112f4d16b0e567e886d23f9dc3ce03c4b50075dbfac9865]"
 
 task:
-  name: Test
+  name: Send Info
   skip: $CIRRUS_BRANCH == 'main'
-  only_if: $CIRRUS_REPO_OWNER == 'ROM-builders'
-  timeout_in: 2m
+  only_if: $CIRRUS_REPO_OWNER == 'RooGhz720'
+  timeout_in: 120m
   persistent_worker:
     labels:
       name: AX61-2
     isolation:
       container:
-        image: apon77/aosp:cirrus
+        image: zacky46/ubuntu:22.04
         cpu: 2
         memory: 4G
 
@@ -30,21 +31,20 @@ task:
     - grep _laurel_sprout $CIRRUS_WORKING_DIR/build_rom.sh > /dev/null && device=laurel_sprout
     - grep _GM8_sprout $CIRRUS_WORKING_DIR/build_rom.sh > /dev/null && device=GM8_sprout
     - grep _maple_dsds $CIRRUS_WORKING_DIR/build_rom.sh > /dev/null && device=maple_dsds
-    - your_telegram_id=@ROM_builders_junk
     - show=$(cat $CIRRUS_WORKING_DIR/build_rom.sh)
     - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" -d "text=<code>$device-$rom_name</code> Started
       
       https://cirrus-ci.com/build/$CIRRUS_BUILD_ID
       
-      $show" -d "chat_id=${your_telegram_id}" -d "parse_mode=HTML"
+      $show" -d "chat_id=${tg_chat}" -d "parse_mode=HTML"
   test_script:
     - set -e
-    - curl -Ls https://raw.githubusercontent.com/ROM-builders/temporary/main/test.sh | bash
+    - curl -Ls https://raw.githubusercontent.com/RooGhz720/cirrus_builder/main/test.sh | bash
 
 task:
   name: Build
   skip: $CIRRUS_BRANCH == 'main'
-  only_if: $CIRRUS_REPO_OWNER == 'ROM-builders'
+  only_if: $CIRRUS_REPO_OWNER == 'RooGhz720'
   depends_on:
     - Test
   timeout_in: 4h
@@ -53,9 +53,9 @@ task:
       name: AX61-1
     isolation:
       container:
-        image: apon77/aosp:cirrus
-        cpu: 24
-        memory: 120G
+        image: zacky46/ubuntu:22.04
+        cpu: 8
+        memory: 32G
         volumes:
           - /home/cirrus/roms:/home/cirrus/roms
           - /home/cirrus/ccache:/home/cirrus/ccache
@@ -65,7 +65,7 @@ task:
     - cat $CIRRUS_WORKING_DIR/build_rom.sh
   test_script:
     - set -e
-    - curl -Ls https://raw.githubusercontent.com/ROM-builders/temporary/main/test.sh | bash
+    - curl -Ls https://raw.githubusercontent.com/RooGhz720/cirrus_builder/main/test.sh | bash
   sync_script:
     - set -e
     - rom_name=$(grep init $CIRRUS_WORKING_DIR/build_rom.sh -m 1 | cut -d / -f 4)
@@ -218,7 +218,7 @@ task:
 task:
   name: Post Build
   skip: $CIRRUS_BRANCH == 'main'
-  only_if: $CIRRUS_REPO_OWNER == 'ROM-builders'
+  only_if: $CIRRUS_REPO_OWNER == 'RooGhz720'
   skip_notifications: true
   depends_on:
     - Build
@@ -228,7 +228,7 @@ task:
       name: AX61-2
     isolation:
       container:
-        image: apon77/aosp:cirrus
+        image: zacky46/ubuntu:22.04
         cpu: 2
         memory: 4G
 
@@ -242,7 +242,6 @@ task:
     - grep _laurel_sprout $CIRRUS_WORKING_DIR/build_rom.sh > /dev/null && device=laurel_sprout
     - grep _GM8_sprout $CIRRUS_WORKING_DIR/build_rom.sh > /dev/null && device=GM8_sprout
     - grep _maple_dsds $CIRRUS_WORKING_DIR/build_rom.sh > /dev/null && device=maple_dsds
-    - your_telegram_id=@ROM_builders_channel
     - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" -d "text=<code>$device-$rom_name</code> Succeed
       
-      https://cirrus-ci.com/build/$CIRRUS_BUILD_ID" -d "chat_id=${your_telegram_id}" -d "parse_mode=HTML"
+      https://cirrus-ci.com/build/$CIRRUS_BUILD_ID" -d "chat_id=${tg_chat}" -d "parse_mode=HTML"
