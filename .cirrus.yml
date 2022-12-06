@@ -5,8 +5,7 @@ env:
     tg_chat: "ENCRYPTED[eda727af7dc580630da7bf5fc18342027b4d395261e2b4d4a112f4d16b0e567e886d23f9dc3ce03c4b50075dbfac9865]"
 
 task:
-  name: Send Info
-  skip: $CIRRUS_BRANCH == 'main'
+  name: Test
   only_if: $CIRRUS_REPO_OWNER == 'RooGhz720'
   timeout_in: 120m
   persistent_worker:
@@ -43,7 +42,6 @@ task:
 
 task:
   name: Build
-  skip: $CIRRUS_BRANCH == 'main'
   only_if: $CIRRUS_REPO_OWNER == 'RooGhz720'
   depends_on:
     - Test
@@ -217,7 +215,6 @@ task:
 
 task:
   name: Post Build
-  skip: $CIRRUS_BRANCH == 'main'
   only_if: $CIRRUS_REPO_OWNER == 'RooGhz720'
   skip_notifications: true
   depends_on:
