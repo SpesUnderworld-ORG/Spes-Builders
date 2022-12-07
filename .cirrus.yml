@@ -6,7 +6,7 @@ env:
 task:
   name: Build Rom
   only_if: $CIRRUS_REPO_OWNER == 'RooGhz720'
-  timeout_in: 180m
+  timeout_in: 280m
   container:
     image: zacky46/ubuntu:22.04
     cpu: 8
@@ -18,9 +18,10 @@ task:
 
   show_script:
     - cat $CIRRUS_WORKING_DIR/build_rom.sh
-  test_script:
-    - set -e
-    - echo "bypass"
+
+  post_build_script:
+    - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" -d "Build started..." -d "chat_id=${tg_chat}" -d "parse_mode=HTML"
+
   sync_script:
     - set -e
     - rom_name=$(grep init $CIRRUS_WORKING_DIR/build_rom.sh -m 1 | cut -d / -f 4)
