@@ -7,10 +7,10 @@ task:
   name: Build Rom
   only_if: $CIRRUS_REPO_OWNER == 'RooGhz720'
   timeout_in: 120m
-      container:
-        image: zacky46/ubuntu:22.04
-        cpu: 8
-        memory: 32G
+  container:
+    image: zacky46/ubuntu:22.04
+    cpu: 8
+    memory: 32G
         volumes:
           - /home/cirrus/roms:/home/cirrus/roms
           - /home/cirrus/ccache:/home/cirrus/ccache
