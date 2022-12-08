@@ -1,0 +1,39 @@
+env:
+  CIRRUS_CLONE_DEPTH: "1"
+  BUILD_HOSTNAME: "cirrus-ci.org"
+  RCLONECONFIG_DRIVE: "ENCRYPTED[3d3e44da37aad0ee4adea821d4cd520c323f40ddadf4918ecc02347cf7d63dcd0d4897cb744359070a36ffde9699352d]"
+  TG_TOKEN: "ENCRYPTED[815976446bd4e5019391862148772ab08f160b5a5faedb30a1aec089e6d1caf293cd4aecad8be37a73c401efa47e2cee]"
+  TG_CHAT_ID: "ENCRYPTED[eda727af7dc580630da7bf5fc18342027b4d395261e2b4d4a112f4d16b0e567e886d23f9dc3ce03c4b50075dbfac9865]"
+  WORKDIR: "/tmp"
+  EMAIL: "ENCRYPTED[e0ca201ca6feddee4033e308f1d6b5a3480e78604e1bc3112aa91c545a649cd129b7728b1745133d980c630ef9897152]"
+  credentials: "ENCRYPTED[cc4d78790578ad8c891a3bfc2eb98e9a9076d1a7cec7ead728ad945625b9e8cddd91076d7af667bd4024ce6995ba6dcb]"
+
+task:
+  name: "Setting Up, Syncing, Building and Uploading"
+  only_if: $CIRRUS_REPO_OWNER == 'RooGhz720'
+  timeout_in: 120m
+  container:
+    image: anggit86/ubuntu:22.04
+    cpu: 8
+    memory: 32G
+
+  Load-Ccache_background_script:
+     - ./script/load_ccache.sh
+
+  Sync-rom_script:
+     - git config --global user.name "RooGhz720"
+     - git config --global user.email "$EMAIL"
+     - echo "$credentials" > ~/.git-credentials
+     - git config --global credential.helper store --file=~/.git-credentials
+     - ./script/sync.sh
+     
+  Build-rom_script:
+     - ./script/building.sh
+     
+  Ccache-info_script:
+     - set -e
+     - export CCACHE_DIR=$WORKDIR/ccache
+     - ccache -s
+
+  Upload-build_script:
+     - ./script/ziping.sh
