@@ -9,7 +9,7 @@ env:
   credentials: ENCRYPTED[cc4d78790578ad8c891a3bfc2eb98e9a9076d1a7cec7ead728ad945625b9e8cddd91076d7af667bd4024ce6995ba6dcb]
 
 task:
-  name: "Setting Up, Syncing, Building and Uploading"
+  name: "Build rom"
   only_if: $CIRRUS_REPO_OWNER == 'RooGhz720'
   timeout_in: 120m
   container:
