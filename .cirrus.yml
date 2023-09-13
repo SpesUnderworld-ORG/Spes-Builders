@@ -2,15 +2,15 @@ env:
   CIRRUS_CLONE_DEPTH: "1"
   BUILD_HOSTNAME: "cirrus-ci.org"
   RCLONECONFIG_DRIVE: ENCRYPTED[fe350d3daf2746cc54ab6196e9a498682909318891cdd4c577b63f8992f2b96e0c9892fa5e32d2dc638cead82ceb92b1]
-  TG_TOKEN: ENCRYPTED[aca0f1c6a1d9cfa6aa9e0060536f52eb1929ed9e402dbd4f6a5ccf265875fdded1d8a18c523d8136e35cc52689606ce2]
-  TG_CHAT_ID: ENCRYPTED[c728f3b967976846e15aeeb97b42af92b4038478baeb712c3f42ab325181a341a60bea7d0c7a6f298b6141b8f83ef809]
+  TG_TOKEN: ENCRYPTED[!731e8438824938461ad45a395d6e34d8ed23b42b9f0194523f7ff059a7cfece583bea3e96ba47754fd92123841478e69!]
+  TG_CHAT_ID: ENCRYPTED[!15e743b8536c4b293052e985a73a5af3153bde6f31fa28c896990211b82d7aaa59b21221c7d672b290349574b7a26893!]
   WORKDIR: "/tmp"
-  EMAIL: ENCRYPTED[e0ca201ca6feddee4033e308f1d6b5a3480e78604e1bc3112aa91c545a649cd129b7728b1745133d980c630ef9897152]
-  credentials: ENCRYPTED[cc4d78790578ad8c891a3bfc2eb98e9a9076d1a7cec7ead728ad945625b9e8cddd91076d7af667bd4024ce6995ba6dcb]
+  EMAIL: ENCRYPTED[!0e3fe551fdfff79b1605cb58f9a11d7c3f57fa41966f0bbd52dc3b6e0d680bcb627e6c87887c60f795948b72383bb27c!]
+  credentials: ENCRYPTED[!276b635175a6a93011d5dc0584aea7e37d69ec476f5988220e6653daf639cea8ba68d937d3214b6279342e06d828b6b7!]
 
 task:
   name: "Build roms"
-  only_if: $CIRRUS_REPO_OWNER == 'RooGhz720'
+  #only_if: $CIRRUS_REPO_OWNER == ''
   timeout_in: 150m
   container:
     image: anggit86/ubuntu:22.04
@@ -21,7 +21,7 @@ task:
      - ./script/load_ccache.sh
 
   Sync-rom_script:
-     - git config --global user.name "RooGhz720"
+     - git config --global user.name "spesunderworld"
      - git config --global user.email "$EMAIL"
      - echo "$credentials" > ~/.git-credentials
      - git config --global credential.helper store --file=~/.git-credentials
