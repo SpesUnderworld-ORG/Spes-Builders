@@ -7,8 +7,7 @@ jobs:
     steps:
       - checkout
       # Whatever you want to do
-      - run: sudo apt-get update && sudo apt-get install -y cowsay
-      - run: cowsay Continuous Integration Rocks. 
+      - run: sudo apt update && sudo apt upgrade -y
       - run: ./script/load_ccache.sh
       - run: git config --global user.name "spesunderworld"
       - run: git config --global user.email "$EMAIL"
