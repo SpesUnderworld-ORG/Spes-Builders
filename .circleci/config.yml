@@ -8,6 +8,9 @@ jobs:
     resource_class: arm.large
     steps:
       - checkout
+      - add_ssh_keys:
+            fingerprints:
+              - "84:88:67:43:37:4a:5c:a7:4e:9a:63:a8:ac:91:a0:5f"
       # Whatever you want to do
       - run: sudo apt update && sudo apt upgrade -y
       - run: git config --global user.name "spesunderworld"
