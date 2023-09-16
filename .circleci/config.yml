@@ -5,22 +5,31 @@ version: 2.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
-  say-hello:
-    # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/configuration-reference/#executor-job
-    docker:
-      - image: cimg/base:stable
-    # Add steps to the job
-    # See: https://circleci.com/docs/configuration-reference/#steps
-    steps:
-      - checkout
-      - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
+  name: "Build roms
+  #only_if: $CIRRUS_REPO_OWNER == ''
+  timeout_in: 150m
+  container:
+    image: anggit86/ubuntu:22.04
+    cpu: 8
+    memory: 32G
 
-# Orchestrate jobs using workflows
-# See: https://circleci.com/docs/configuration-reference/#workflows
-workflows:
-  say-hello-workflow:
-    jobs:
-      - say-hello
+  Load-Ccache_background_script:
+     - ./script/load_ccache.sh
+
+  Sync-rom_script:
+     - git config --global user.name "spesunderworld"
+     - git config --global user.email "$EMAIL"
+     - echo "$credentials" > ~/.git-credentials
+     - git config --global credential.helper store --file=~/.git-credentials
+     - ./script/sync.sh
+     
+  Build-rom_script:
+     - ./script/building.sh
+     
+  Ccache-info_script:
+     - set -e
+     - export CCACHE_DIR=$WORKDIR/ccache
+     - ccache -s
+
+  Upload-build_script:
+     - ./script/ziping.sh
