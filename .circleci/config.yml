@@ -1,7 +1,14 @@
 jobs: 
-    build:
+  build:
     machine:
       image: ubuntu-2204:2023.07.2
+    # If running ARM, the resource class needs to be added. Omitting this defaults to amd64
+    resource_class: arm.medium
+    steps:
+      - checkout
+      # Whatever you want to do
+      - run: sudo apt-get update && sudo apt-get install -y cowsay
+      - run: cowsay Continuous Integration Rocks!
     
     
 
