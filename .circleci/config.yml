@@ -1,6 +1,6 @@
 jobs: 
   build:
-    machine:
+    machine: true
       image: ubuntu-2204:2023.07.2
     # If running ARM, the resource class needs to be added. Omitting this defaults to amd64
     resource_class: arm.medium
@@ -22,9 +22,6 @@ jobs:
      - git config --global credential.helper store --file=~/.git-credentials
      - ./script/sync.sh
      
-jobs:
-  build:
-    machine: true  
   Build-rom_script:
      - ./script/building.sh
      
