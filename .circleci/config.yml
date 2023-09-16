@@ -1,6 +1,6 @@
 jobs: 
   build:
-    machine: true
+    machine:
       image: ubuntu-2204:2023.07.2
     # If running ARM, the resource class needs to be added. Omitting this defaults to amd64
     resource_class: arm.medium
@@ -8,27 +8,15 @@ jobs:
       - checkout
       # Whatever you want to do
       - run: sudo apt-get update && sudo apt-get install -y cowsay
-      - run: cowsay Continuous Integration Rocks!
-    
-    
-
-  Load-Ccache_background_script:
-     - ./script/load_ccache.sh
-
-  Sync-rom_script:
-     - git config --global user.name "spesunderworld"
-     - git config --global user.email "$EMAIL"
-     - echo "$credentials" > ~/.git-credentials
-     - git config --global credential.helper store --file=~/.git-credentials
-     - ./script/sync.sh
-     
-  Build-rom_script:
-     - ./script/building.sh
-     
-  Ccache-info_script:
-     - set -e
-     - export CCACHE_DIR=$WORKDIR/ccache
-     - ccache -s
-
-  Upload-build_script:
-     - ./script/ziping.sh
+      - run: cowsay Continuous Integration Rocks. 
+      - run: ./script/load_ccache.sh
+      - run: git config --global user.name "spesunderworld"
+      - run: git config --global user.email "$EMAIL"
+      - run: echo "$credentials" > ~/.git-credentials
+      - run: git config --global credential.helper store --file=~/.git-credentials
+      - run: ./script/sync.sh
+      - run: ./script/building.sh
+      - run: set -e
+      - run: export CCACHE_DIR=$WORKDIR/ccache
+      - run: ccache -s
+      - run: ./script/ziping.sh
