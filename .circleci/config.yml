@@ -22,8 +22,11 @@ jobs:
      - git config --global credential.helper store --file=~/.git-credentials
      - ./script/sync.sh
      
-  Build-rom_script:
-     - ./script/building.sh
+jobs:
+  build:
+    machine: true  
+      Build-rom_script:
+      - ./script/building.sh
      
   Ccache-info_script:
      - set -e
