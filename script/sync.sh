@@ -9,6 +9,11 @@ git clone https://github.com/donboruza/local_manifests.git --depth 1 -b sweet-13
 repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
 
 # build rom
+export USE_CCACHE=1
+export CCACHE_COMPRESS=true
+which ccache
+ccache -M 10
+ccache -z
 . build/envsetup.sh
 lunch lineage_sweet-userdebug
 export TZ=Asia/Jakarta
