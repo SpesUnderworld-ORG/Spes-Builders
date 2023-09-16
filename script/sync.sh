@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 set -exv
-name_rom=$(grep init $CIRRUS_WORKING_DIR/build.sh -m 1 | cut -d / -f 4)
+name_rom=$(grep init $CIRCLE_WORKING_DIRECTORY/build.sh -m 1 | cut -d / -f 4)
 mkdir -p $WORKDIR/rom/$name_rom
 cd $WORKDIR/rom/$name_rom
-command=$(head $CIRRUS_WORKING_DIR/build.sh -n $(expr $(grep '# build rom' $CIRRUS_WORKING_DIR/build.sh -n | cut -f1 -d:) - 1))
-only_sync=$(grep 'repo sync' $CIRRUS_WORKING_DIR/build.sh)
+command=$(head $CIRCLE_WORKING_DIRECTORY/build.sh -n $(expr $(grep '# build rom' $CIRCLE_WORKING_DIRECTORY/build.sh -n | cut -f1 -d:) - 1))
+only_sync=$(grep 'repo sync' $CIRCLE_WORKING_DIRECTORY/build.sh)
 bash -c "$command" || true
 curl -sO https://api.cirrus-ci.com/v1/task/$CIRRUS_TASK_ID/logs/Sync-rom.log
 a=$(grep 'Cannot remove project' Sync-rom.log -m1|| true)
