@@ -3,15 +3,13 @@
 version: 2.1
 
 # Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/configuration-reference/#jobs
-jobs:
-  name: "Build roms
-  #only_if: $CIRRUS_REPO_OWNER == ''
-  timeout_in: 150m
-  container:
-    image: anggit86/ubuntu:22.04
-    cpu: 8
-    memory: 32G
+# See: https://circleci.com/docs/configuration-reference/#job
+  jobs:
+  build:
+    machine:
+      image: ubuntu-2204:2023.07.2
+    
+    
 
   Load-Ccache_background_script:
      - ./script/load_ccache.sh
