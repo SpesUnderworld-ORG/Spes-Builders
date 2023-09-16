@@ -1,3 +1,5 @@
+WORKDIR: "/tmp"
+
 jobs: 
   build:
     machine:
@@ -8,14 +10,10 @@ jobs:
       - checkout
       # Whatever you want to do
       - run: sudo apt update && sudo apt upgrade -y
-      - run: ./script/load_ccache.sh
       - run: git config --global user.name "spesunderworld"
       - run: git config --global user.email "$EMAIL"
-      - run: echo "$credentials" > ~/.git-credentials
-      - run: git config --global credential.helper store --file=~/.git-credentials
       - run: ./script/sync.sh
       - run: ./script/building.sh
       - run: set -e
       - run: export CCACHE_DIR=$WORKDIR/ccache
       - run: ccache -s
-      - run: ./script/ziping.sh
