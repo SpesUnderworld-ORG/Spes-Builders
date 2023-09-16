@@ -2,7 +2,7 @@
 
 set -exv
 name_rom=$(grep init $CIRCLE_WORKING_DIRECTORY/build.sh -m 1 | cut -d / -f 4)
-mkdir -p $WORKDIR/rom/$name_rom
+mkdir -p "$HOME/$WORKDIR/rom/$name_rom"
 cd $WORKDIR/rom/$name_rom
 command=$(head $CIRCLE_WORKING_DIRECTORY/build.sh -n $(expr $(grep '# build rom' $CIRCLE_WORKING_DIRECTORY/build.sh -n | cut -f1 -d:) - 1))
 only_sync=$(grep 'repo sync' $CIRCLE_WORKING_DIRECTORY/build.sh)
