@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 set -e
-name_rom=$(grep init $CIRRUS_WORKING_DIR/build.sh -m 1 
+name_rom=$(grep init $CIRCLE_WORKING_DIRECTORY/build.sh -m 1 
 --cut -d / -f 4)
-device=$(grep unch $CIRRUS_WORKING_DIR/build.sh -m 1 
+device=$(grep unch $CIRCLE_WORKING_DIRECTORY/build.sh -m 1 
 --cut -d ' ' -f 2 
 --cut -d _ -f 2 
 --cut -d - -f 1)
@@ -16,6 +16,6 @@ export CCACHE_COMPRESS=true
 which ccache
 ccache -M 10
 ccache -z
-command=$(tail $CIRRUS_WORKING_DIR/build.sh -n +$(expr $(grep '# build rom' $CIRRUS_WORKING_DIR/build.sh -n | cut -f1 -d:) - 1)| head -n -1 | grep -v '# end')
+command=$(tail $CIRCLE_WORKING_DIRECTORY/build.sh -n +$(expr $(grep '# build rom' $CIRCLE_WORKING_DIRECTORY/build.sh -n | cut -f1 -d:) - 1)| head -n -1 | grep -v '# end')
 bash -c "$command" |& tee -a $WORKDIR/rom/$name_rom/build.log || true #& sleep 95m
-bash $CIRRUS_WORKING_DIR/script/check_build.sh
+bash $CIRCLE_WORKING_DIRECTORY/script/check_build.sh
