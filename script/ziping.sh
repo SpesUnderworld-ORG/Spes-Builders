@@ -12,10 +12,10 @@ telegram_message() {
 }
 
 function enviroment() {
-device=$(grep unch $CIRRUS_WORKING_DIR/build.sh -m 1 | cut -d ' ' -f 2 | cut -d _ -f 2 | cut -d - -f 1)
-name_rom=$(grep init $CIRRUS_WORKING_DIR/build.sh -m 1 | cut -d / -f 4)
+device=$(grep unch $CIRCLE_WORKING_DIRECTORY/build.sh -m 1 | cut -d ' ' -f 2 | cut -d _ -f 2 | cut -d - -f 1)
+name_rom=$(grep init $CIRCLE_WORKING_DIRECTORY/build.sh -m 1 | cut -d / -f 4)
 file_name=$(cd $WORKDIR/rom/$name_rom/out/target/product/$device && ls *.zip)
-branch_name=$(grep init $CIRRUS_WORKING_DIR/build.sh | awk -F "-b " '{print $2}' | awk '{print $1}')
+branch_name=$(grep init $CIRCLE_WORKING_DIRECTORY/build.sh | awk -F "-b " '{print $2}' | awk '{print $1}')
 rel_date=$(date "+%Y%m%d")
 DATE_L=$(date +%d\ %B\ %Y)
 DATE_S=$(date +"%T")
@@ -29,13 +29,13 @@ cd $WORKDIR/rom/$name_rom
 engzip=$(ls out/target/product/$device/*-eng*.zip | grep -v "retrofit" || true)
 otazip=$(ls out/target/product/$device/*-ota-*.zip | grep -v "hentai" | grep -v "evolution" || true)
 awaken=$(ls out/target/product/$device/Project-Awaken*.zip || true)
-octavi=$(ls out/target/product/$device/OctaviOS-R*.zip || true)
+octavi=$(ls out/target/product/$device/OctaviOS-R*.zip || true)cipher
 p404=$(ls out/target/product/$device/?.*zip || true)
 cipher=$(ls out/target/product/$device/CipherOS-*-OTA-*.zip || true)
 rm -rf $engzip $otazip $awaken $octavi $p404 $cipher
 file_name=$(basename out/target/product/$device/*.zip)
 DL_LINK=https://cloud.workers.dev/1:/$name_rom/$device/$file_name
-rclone copy out/target/product/$(grep unch $CIRRUS_WORKING_DIR/build.sh -m 1 | cut -d ' ' -f 2 | cut -d _ -f 2 | cut -d - -f 1)/*.zip spesunderworld:$(grep init $CIRRUS_WORKING_DIR/build.sh -m 1 | cut -d / -f 4)/$(grep unch $CIRRUS_WORKING_DIR/build.sh -m 1 | cut -d ' ' -f 2 | cut -d _ -f 2 | cut -d - -f 1) -P
+rclone copy out/target/product/$(grep unch $CIRCLE_WORKING_DIRECTORY/build.sh -m 1 | cut -d ' ' -f 2 | cut -d _ -f 2 | cut -d - -f 1)/*.zip spesunderworld:$(grep init $CIRCLE_WORKING_DIRECTORY/build.sh -m 1 | cut -d / -f 4)/$(grep unch $CIRCLE_WORKING_DIRECTORY/build.sh -m 1 | cut -d ' ' -f 2 | cut -d _ -f 2 | cut -d - -f 1) -P
 cd $WORKDIR/rom/$name_rom/out/target/product/$device
 echo -e \
 "

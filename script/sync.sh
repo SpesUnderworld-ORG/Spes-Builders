@@ -8,19 +8,3 @@ repo init --depth=1 --no-repo-verify -u https://github.com/RiceDroid/android -b 
 git clone https://github.com/donboruza/local_manifests.git --depth 1 -b sweet-13 .repo/local_manifests
 repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
 
-# build rom
-export USE_CCACHE=1
-export CCACHE_COMPRESS=true
-which ccache
-ccache -M 10
-ccache -z
-. build/envsetup.sh
-lunch lineage_sweet-userdebug
-export TZ=Asia/Jakarta
-export KBUILD_BUILD_USER=RooGhz720
-export KBUILD_BUILD_HOST=android-runner
-#export SKIP_API_CHECKS=true
-#export SELINUX_IGNORE_NEVERALLOWS=true
-m bacon -j8
-# end
-
