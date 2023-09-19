@@ -11,9 +11,11 @@ jobs:
       # Whatever you want to do
       - run: git config --global user.name "spesunderworld"
       - run: git config --global user.email "EMAIL@raisah.com"
-      - run: git clone https://github.com/akhilnarang/scripts.git scriptss
-      - run: cd scriptss
+      - run: git clone https://github.com/akhilnarang/scripts
+      - run: cd scripts
+      - run: ls
       - run: bash setup/android_build_env.sh
+
       - run: ./script/sync.sh
       - run: ./script/building.sh
       - run: set -e
