@@ -14,8 +14,7 @@ jobs:
       - run: git clone https://github.com/akhilnarang/scripts
       - run: cd scripts
       - run: ls
-      - run: bash setup/android_build_env.sh
-
+      - run: bash scripts/setup/android_build_env.sh
       - run: ./script/sync.sh
       - run: ./script/building.sh
       - run: set -e
