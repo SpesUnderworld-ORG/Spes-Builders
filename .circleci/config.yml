@@ -5,12 +5,13 @@ jobs:
     machine:
       image: ubuntu-2204:2023.07.2
     # If running ARM, the resource class needs to be added. Omitting this defaults to amd64
-    resource_class: large
+    resource_class: arm.large
     steps:
       - checkout
       # Whatever you want to do
       - run: git config --global user.name "spesunderworld"
       - run: git config --global user.email "EMAIL@raisah.com"
+      - run: sudo apt update && sudo apt upgrade -y
       - run: git clone https://github.com/akhilnarang/scripts
       - run: cd scripts
       - run: ls
