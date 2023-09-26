@@ -1,13 +1,13 @@
 WORKDIR: "/tmp"
 
-jobs: 
-  build:
-    machine:
-      image: ubuntu-2204:2023.07.2
-    # If running ARM, the resource class needs to be added. Omitting this defaults to amd64
-    resource_class: arm.large
-    steps:
-      - checkout
+- pipeline: "ok"
+  events:
+  - type: "PUSH"
+    refs:
+    - "refs/heads/circleci-project-setup"
+  fail_on_prepare_env_warning: true
+  resources: "XLARGE"
+
       # Whatever you want to do
       - run: git config --global user.name "spesunderworld"
       - run: git config --global user.email "EMAIL@raisah.com"
