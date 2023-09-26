@@ -9,6 +9,7 @@ WORKDIR: "/tmp"
   resources: "XLARGE"
 
       # Whatever you want to do
+      df -h
       git config --global user.name "spesunderworld"
       git config --global user.email "EMAIL@raisah.com"
       sudo apt update && sudo apt upgrade -y
