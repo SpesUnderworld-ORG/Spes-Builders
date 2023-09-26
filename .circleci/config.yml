@@ -9,15 +9,15 @@ WORKDIR: "/tmp"
   resources: "XLARGE"
 
       # Whatever you want to do
-      - run: git config --global user.name "spesunderworld"
-      - run: git config --global user.email "EMAIL@raisah.com"
-      - run: sudo apt update && sudo apt upgrade -y
-      - run: git clone https://github.com/akhilnarang/scripts
-      - run: cd scripts
-      - run: ls
-      - run: bash scripts/setup/android_build_env.sh
-      - run: ./script/sync.sh
-      - run: ./script/building.sh
-      - run: set -e
-      - run: export CCACHE_DIR=$WORKDIR/ccache
-      - run: ccache -s
+      git config --global user.name "spesunderworld"
+      git config --global user.email "EMAIL@raisah.com"
+      sudo apt update && sudo apt upgrade -y
+      git clone https://github.com/akhilnarang/scripts
+      cd scripts
+      ls
+      bash scripts/setup/android_build_env.sh
+      ./script/sync.sh
+      ./script/building.sh
+      set -e
+      export CCACHE_DIR=$WORKDIR/ccache
+      ccache -s
